@@ -11,7 +11,10 @@
     <main class="container">
       <header class="header">
         <p class="logo">TECH INTERVIEW</p>
-        <p class="progress" id="progress">Question 01 / 12</p>
+        <div class="header-actions">
+          <a class="review-link" href="review.html">★ 복습 노트</a>
+          <p class="progress" id="progress">Question 01 / 12</p>
+        </div>
       </header>
 
       <section class="generator" aria-labelledby="generator-title">
@@ -45,6 +48,7 @@
         <textarea id="answer" placeholder="먼저 직접 답변을 작성해보세요."></textarea>
 
         <div class="buttons">
+          <button id="bookmark-button" class="secondary" aria-pressed="false">☆ 복습에 추가</button>
           <button id="hint-button" class="secondary">Hint</button>
           <button id="check-button" class="primary">답변 확인</button>
         </div>

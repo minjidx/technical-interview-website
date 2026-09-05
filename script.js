@@ -11,7 +11,7 @@ let currentIndex = 0;
 const STORAGE_KEY = "tech-interview-bookmarks";
 
 const $ = (id) => document.getElementById(id);
-const elements = { progress: $("progress"), category: $("category"), question: $("question"), answer: $("answer"), hint: $("hint"), result: $("result"), modelAnswer: $("model-answer"), keywords: $("keywords"), previous: $("previous-button"), next: $("next-button"), check: $("check-button"), hintButton: $("hint-button"), generate: $("generate-button"), aiCategory: $("ai-category"), aiDifficulty: $("ai-difficulty") };
+const elements = { progress: $("progress"), category: $("category"), question: $("question"), answer: $("answer"), hint: $("hint"), result: $("result"), modelAnswer: $("model-answer"), keywords: $("keywords"), previous: $("previous-button"), next: $("next-button"), check: $("check-button"), hintButton: $("hint-button"), bookmark: $("bookmark-button"), generate: $("generate-button"), aiCategory: $("ai-category"), aiDifficulty: $("ai-difficulty") };
 
 function questionId(item) {
   return item.id || `${item.category}::${item.question}`;
@@ -43,7 +43,6 @@ function renderQuestion() {
   updateBookmarkButton();
 }
 
-elements.answer.addEventListener("input", () => answers.set(currentIndex, elements.answer.value));
 elements.answer.addEventListener("input", () => {
   answers.set(currentIndex, elements.answer.value);
   const id = questionId(questions[currentIndex]);
@@ -89,7 +88,6 @@ elements.generate.addEventListener("click", async () => {
     });
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || "AI 문제 생성에 실패했습니다.");
-    questions.push({ ...data, isAi: true });
     questions.push({ ...data, id: `ai-${crypto.randomUUID()}`, isAi: true });
     currentIndex = questions.length - 1;
     renderQuestion();

@@ -8,9 +8,25 @@ const starterQuestions = [
 const questions = [...starterQuestions];
 const answers = new Map();
 let currentIndex = 0;
+const STORAGE_KEY = "tech-interview-bookmarks";
 
 const $ = (id) => document.getElementById(id);
 const elements = { progress: $("progress"), category: $("category"), question: $("question"), answer: $("answer"), hint: $("hint"), result: $("result"), modelAnswer: $("model-answer"), keywords: $("keywords"), previous: $("previous-button"), next: $("next-button"), check: $("check-button"), hintButton: $("hint-button"), generate: $("generate-button"), aiCategory: $("ai-category"), aiDifficulty: $("ai-difficulty") };
+const elements = { progress: $("progress"), category: $("category"), question: $("question"), answer: $("answer"), hint: $("hint"), result: $("result"), modelAnswer: $("model-answer"), keywords: $("keywords"), previous: $("previous-button"), next: $("next-button"), check: $("check-button"), hintButton: $("hint-button"), bookmark: $("bookmark-button"), generate: $("generate-button"), aiCategory: $("ai-category"), aiDifficulty: $("ai-difficulty") };
+
+function questionId(item) {
+  return item.id || `${item.category}::${item.question}`;
+}
+
+function getBookmarks() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch { return []; }
+}
+
+function updateBookmarkButton() {
+  const saved = getBookmarks().some((item) => item.id === questionId(questions[currentIndex]));
+  elements.bookmark.textContent = saved ? "★ 복습에 저장됨" : "☆ 복습에 추가";
+  elements.bookmark.setAttribute("aria-pressed", String(saved));
+}
 
 function renderQuestion() {
   const item = questions[currentIndex];
@@ -25,11 +41,35 @@ function renderQuestion() {
   elements.keywords.replaceChildren(...item.keywords.map((keyword) => { const tag = document.createElement("span"); tag.textContent = keyword; return tag; }));
   elements.previous.disabled = currentIndex === 0;
   elements.next.disabled = currentIndex === questions.length - 1;
+  updateBookmarkButton();
 }
 
 elements.answer.addEventListener("input", () => answers.set(currentIndex, elements.answer.value));
+elements.answer.addEventListener("input", () => {
+  answers.set(currentIndex, elements.answer.value);
+  const id = questionId(questions[currentIndex]);
+  const bookmarks = getBookmarks();
+  const savedIndex = bookmarks.findIndex((item) => item.id === id);
+  if (savedIndex >= 0) {
+    bookmarks[savedIndex].answer = elements.answer.value;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(bookmarks));
+  }
+});
 elements.hintButton.addEventListener("click", () => elements.hint.classList.toggle("hidden"));
 elements.check.addEventListener("click", () => elements.result.classList.remove("hidden"));
+elements.bookmark.addEventListener("click", () => {
+  const item = questions[currentIndex];
+  const id = questionId(item);
+  const bookmarks = getBookmarks();
+  const savedIndex = bookmarks.findIndex((bookmark) => bookmark.id === id);
+  if (savedIndex >= 0) {
+    bookmarks.splice(savedIndex, 1);
+  } else {
+    bookmarks.push({ ...item, id, answer: elements.answer.value, savedAt: new Date().toISOString() });
+  }
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(bookmarks));
+  updateBookmarkButton();
+});
 elements.previous.addEventListener("click", () => { if (currentIndex > 0) { currentIndex--; renderQuestion(); } });
 elements.next.addEventListener("click", () => { if (currentIndex < questions.length - 1) { currentIndex++; renderQuestion(); } });
 
@@ -51,6 +91,7 @@ elements.generate.addEventListener("click", async () => {
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || "AI 문제 생성에 실패했습니다.");
     questions.push({ ...data, isAi: true });
+    questions.push({ ...data, id: `ai-${crypto.randomUUID()}`, isAi: true });
     currentIndex = questions.length - 1;
     renderQuestion();
   } catch (error) {
@@ -60,5 +101,15 @@ elements.generate.addEventListener("click", async () => {
     elements.generate.textContent = originalText;
   }
 });
+
+const reviewId = new URLSearchParams(window.location.search).get("review");
+if (reviewId) {
+  const saved = getBookmarks().find((item) => item.id === reviewId);
+  if (saved) {
+    questions.push(saved);
+    currentIndex = questions.length - 1;
+    if (saved.answer) answers.set(currentIndex, saved.answer);
+  }
+}
 
 renderQuestion();

@@ -1,13 +1,4 @@
 
-
-//const checkButton = document.getElementById("check-button");
-//const result = document.getElementById("result");
-
-//checkButton.addEventListener("click", function () {
-//    result.classList.remove("hidden");
-//});
-
-
 const starterQuestions = [
   { category: "PROGRAMMING BASICS", question: "변수란 무엇인가요?", modelAnswer: "변수는 값을 저장하기 위한 이름이 있는 공간입니다. 프로그램은 변수에 데이터를 넣고 필요할 때 다시 읽거나 바꿀 수 있습니다. 자료형에 따라 저장할 수 있는 값의 종류가 달라집니다.", keywords: ["데이터 저장", "이름", "자료형"], hint: "값을 저장하고 다시 사용하는 상자를 떠올려 보세요." },
   { category: "PROGRAMMING BASICS", question: "함수란 무엇이고 왜 사용하나요?", modelAnswer: "함수는 특정 작업을 수행하도록 묶은 코드입니다. 반복되는 코드를 함수로 만들면 재사용하기 쉽고, 코드의 역할이 분명해집니다. 입력값을 받아 결과값을 반환할 수도 있습니다.", keywords: ["재사용", "매개변수", "반환값"], hint: "반복 작업을 한 곳에 모으는 이유를 생각해 보세요." },

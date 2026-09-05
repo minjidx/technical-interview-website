@@ -1,64 +1,69 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="AI와 함께 하는 기술 면접 연습" />
     <title>Tech Interview</title>
-     <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <main class="container">
+      <header class="header">
+        <p class="logo">TECH INTERVIEW</p>
+        <p class="progress" id="progress">Question 01 / 12</p>
+      </header>
 
-        <header>
-            <p class="logo">TECH INTERVIEW</p>
-            <p class="progress">Question 01 / 30</p>
-        </header>
+      <section class="generator" aria-labelledby="generator-title">
+        <div>
+          <p class="eyebrow">AI INTERVIEWER</p>
+          <h2 id="generator-title">AI가 새 문제를 만들어 드릴게요.</h2>
+        </div>
+        <div class="generator-controls">
+          <label>카테고리
+            <select id="ai-category">
+              <option value="programming">프로그래밍 기초</option>
+              <option value="cs" selected>CS 기본</option>
+              <option value="development">개발 개념</option>
+              <option value="interview">기술 면접</option>
+            </select>
+          </label>
+          <label>난이도
+            <select id="ai-difficulty">
+              <option>쉬움</option><option selected>보통</option><option>어려움</option>
+            </select>
+          </label>
+          <button id="generate-button" class="primary">AI 문제 생성</button>
+        </div>
+      </section>
 
-        <section class="question-section">
+      <section class="question-section">
+        <p class="category" id="category"></p>
+        <h1 id="question"></h1>
 
-            <p class="category">COMPUTER SCIENCE</p>
+        <div class="answer-heading"><label for="answer">내 답변</label><span id="save-status">자동 저장됨</span></div>
+        <textarea id="answer" placeholder="먼저 직접 답변을 작성해보세요."></textarea>
 
-            <h1>프로세스와 스레드의<br>차이를 설명해주세요.</h1>
+        <div class="buttons">
+          <button id="hint-button" class="secondary">Hint</button>
+          <button id="check-button" class="primary">답변 확인</button>
+        </div>
+        <p id="hint" class="hint hidden"></p>
 
-            <textarea
-                placeholder="먼저 직접 답변을 작성해보세요."
-            ></textarea>
-
-            <button id="check-button">답변 확인</button>
-
-
-            <section id="result" class="result hidden">
-
-    <p class="result-title">모범 답안</p>
-
-    <p>
-        프로세스는 실행 중인 프로그램으로,
-        독립적인 메모리 공간을 가지고 실행됩니다.
-    </p>
-
-    <p>
-        스레드는 프로세스 내부에서 실행되는 단위이며,
-        같은 프로세스의 자원을 공유합니다.
-    </p>
-
-    <div class="keywords">
-        <span>프로세스</span>
-        <span>스레드</span>
-        <span>독립적인 메모리</span>
-        <span>자원 공유</span>
-    </div>
-
-</section>
-
-            
+        <section id="result" class="result hidden" aria-live="polite">
+          <p class="result-title">모범 답안</p>
+          <p id="model-answer"></p>
+          <p class="result-title keyword-title">핵심 키워드</p>
+          <div class="keywords" id="keywords"></div>
         </section>
 
+        <nav class="navigation" aria-label="문제 이동">
+          <button id="previous-button" class="text-button">← Previous</button>
+          <button id="next-button" class="text-button">Next →</button>
+        </nav>
+      </section>
     </main>
-    
+    <script src="config.js"></script>
     <script src="script.js"></script>
-
-</body>
+  </body>
 </html>

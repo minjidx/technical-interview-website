@@ -12,7 +12,6 @@ const STORAGE_KEY = "tech-interview-bookmarks";
 
 const $ = (id) => document.getElementById(id);
 const elements = { progress: $("progress"), category: $("category"), question: $("question"), answer: $("answer"), hint: $("hint"), result: $("result"), modelAnswer: $("model-answer"), keywords: $("keywords"), previous: $("previous-button"), next: $("next-button"), check: $("check-button"), hintButton: $("hint-button"), generate: $("generate-button"), aiCategory: $("ai-category"), aiDifficulty: $("ai-difficulty") };
-const elements = { progress: $("progress"), category: $("category"), question: $("question"), answer: $("answer"), hint: $("hint"), result: $("result"), modelAnswer: $("model-answer"), keywords: $("keywords"), previous: $("previous-button"), next: $("next-button"), check: $("check-button"), hintButton: $("hint-button"), bookmark: $("bookmark-button"), generate: $("generate-button"), aiCategory: $("ai-category"), aiDifficulty: $("ai-difficulty") };
 
 function questionId(item) {
   return item.id || `${item.category}::${item.question}`;

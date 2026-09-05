@@ -66,3 +66,33 @@ button {
     font-size: 16px;
     cursor: pointer;
 }
+
+.result {
+    margin-top: 40px;
+    padding: 30px;
+    background-color: white;
+    border-radius: 12px;
+}
+
+.result-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.keywords span {
+    padding: 8px 12px;
+    background-color: #eeeeee;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.hidden {
+    display: none;
+}
